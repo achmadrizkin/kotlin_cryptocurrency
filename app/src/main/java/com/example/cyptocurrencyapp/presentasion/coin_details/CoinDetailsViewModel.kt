@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class CoinDetailsListViewModel @Inject constructor(
+class CoinDetailsViewModel @Inject constructor(
     private val getCoinUseCase: GetCoinUseCase,
     savedStateHandle: SavedStateHandle //navigation parameter
 
 ) : ViewModel() {
     // maintain state
-    private val _state = mutableStateOf(CoinDetailsListState())
-    val state: State<CoinDetailsListState> = _state
+    private val _state = mutableStateOf(CoinDetailsState())
+    val state: State<CoinDetailsState> = _state
 
     init {
         savedStateHandle.get<String>(Constant.PARAM_COIN_ID)?.let { coinId -> getCoin(coinId) }
@@ -32,15 +32,15 @@ class CoinDetailsListViewModel @Inject constructor(
         getCoinUseCase(iconId).onEach {
             result -> when(result) {
                 is Resource.Success -> {
-                    _state.value = CoinDetailsListState(coin = result.data)
+                    _state.value = CoinDetailsState(coin = result.data)
                 }
 
                 is Resource.Error -> {
-                    _state.value = CoinDetailsListState(error = result.message?: "An unexpected error occured")
+                    _state.value = CoinDetailsState(error = result.message?: "An unexpected error occured")
                 }
 
                 is Resource.Loading -> {
-                    _state.value = CoinDetailsListState(isLoading = true)
+                    _state.value = CoinDetailsState(isLoading = true)
                 }
             }
         }.launchIn(viewModelScope)
