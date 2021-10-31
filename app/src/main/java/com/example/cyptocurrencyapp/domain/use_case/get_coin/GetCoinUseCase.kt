@@ -2,7 +2,9 @@ package com.example.cyptocurrencyapp.domain.use_case.get_coin
 
 import com.example.cyptocurrencyapp.common.Resource
 import com.example.cyptocurrencyapp.data.remote.dto.toCoin
+import com.example.cyptocurrencyapp.data.remote.dto.toCointDetail
 import com.example.cyptocurrencyapp.domain.model.Coin
+import com.example.cyptocurrencyapp.domain.model.CoinDetail
 import com.example.cyptocurrencyapp.domain.repository.CoinRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -14,12 +16,12 @@ class GetCoinUseCase @Inject constructor(
     private val repository: CoinRepository
 ) {
     // override invoke -> want to emit multiple value (flow) -> service Handle -> return List<Coin>
-    operator fun invoke(): Flow<Resource<List<Coin>>> = flow {
+    operator fun invoke(coinId: String): Flow<Resource<CoinDetail>> = flow {
         try {
             emit(Resource.Loading())
-            val coins = repository.getCoins().map { it.toCoin() }
+            val coin = repository.getCoinById(coinId).toCointDetail()
 
-            emit(Resource.Success(coins))
+            emit(Resource.Success(coin))
 
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexcepted error occured"))

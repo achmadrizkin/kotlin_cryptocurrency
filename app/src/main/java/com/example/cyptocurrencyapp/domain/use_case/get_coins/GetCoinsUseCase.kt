@@ -16,12 +16,12 @@ class GetCoinsUseCase @Inject constructor(
     private val repository: CoinRepository
 ) {
     // override invoke -> want to emit multiple value (flow) -> service Handle -> return List<Coin>
-    operator fun invoke(coinId: String): Flow<Resource<CoinDetail>> = flow {
+    operator fun invoke(): Flow<Resource<List<Coin>>> = flow {
         try {
             emit(Resource.Loading())
-            val coin = repository.getCoinById(coinId).toCointDetail()
+            val coins = repository.getCoins().map { it.toCoin() }
 
-            emit(Resource.Success(coin))
+            emit(Resource.Success(coins))
 
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexcepted error occured"))
