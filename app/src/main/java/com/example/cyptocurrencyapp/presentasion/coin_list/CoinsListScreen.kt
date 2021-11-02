@@ -1,5 +1,6 @@
 package com.example.cyptocurrencyapp.presentasion.coin_list
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,13 +28,14 @@ fun CoinListScreen(
     val state = viewModel.state.value
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.coins) {
-                coin -> CoinsListItem(
-                coin = coin,
-                onItemClick = {
-                    navController.navigate(Screen.CoinsListScreen.route + "/${coin.id}")
-                }
-            )
+            items(state.coins) { coin ->
+                CoinsListItem(
+                    coin = coin,
+                    onItemClick = {
+                        // NO ERROR
+                        navController.navigate(Screen.CoinDetailScreen.route + "/${coin.id}")
+                    }
+                )
             }
         }
 

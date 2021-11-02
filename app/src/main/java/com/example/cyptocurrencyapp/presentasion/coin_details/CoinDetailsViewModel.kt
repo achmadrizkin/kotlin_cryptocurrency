@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
+
 @HiltViewModel
 class CoinDetailsViewModel @Inject constructor(
     private val getCoinUseCase: GetCoinUseCase,
@@ -28,15 +29,17 @@ class CoinDetailsViewModel @Inject constructor(
     }
 
     // get data -> display ui (async)
-    private fun getCoin(iconId: String) {
-        getCoinUseCase(iconId).onEach {
+    private fun getCoin(coinId: String) {
+        getCoinUseCase(coinId).onEach {
             result -> when(result) {
                 is Resource.Success -> {
                     _state.value = CoinDetailsState(coin = result.data)
                 }
 
                 is Resource.Error -> {
-                    _state.value = CoinDetailsState(error = result.message?: "An unexpected error occured")
+                    _state.value = CoinDetailsState(
+                        error = result.message ?: "An unexpected error occured"
+                    )
                 }
 
                 is Resource.Loading -> {

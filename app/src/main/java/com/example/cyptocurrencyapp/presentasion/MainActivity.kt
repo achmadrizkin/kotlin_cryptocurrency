@@ -2,6 +2,7 @@ package com.example.cyptocurrencyapp.presentasion
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -14,7 +15,7 @@ import com.example.cyptocurrencyapp.presentasion.ui.theme.CryptocurrencyApp
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint // use for Hill to inject dependecy
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
     // what is architectur MVVM -> View Model with Logic
     // clean acrhitectur -> use case
 
